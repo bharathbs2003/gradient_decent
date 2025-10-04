@@ -1,0 +1,45 @@
+FROM nvidia/cuda:11.8-devel-ubuntu20.04
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    python3.9 \
+    python3.9-dev \
+    python3-pip \
+    ffmpeg \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    libgomp1 \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set work directory
+WORKDIR /app
+
+# Install Python dependencies
+COPY requirements.txt .
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+# Copy face animation service code
+COPY common/ ./common/
+COPY face-animation/ ./face-animation/
+
+# Create model cache directory
+RUN mkdir -p /app/models
+
+# Expose port
+EXPOSE 8004
+
+# Health check
+HEALTHCHECK --interval=60s --timeout=30s --start-period=180s --retries=3 \
+    CMD curl -f http://localhost:8004/health || exit 1
+
+# Run the face animation service
+CMD ["python3", "-m", "face-animation.service"]

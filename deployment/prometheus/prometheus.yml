@@ -1,0 +1,58 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+scrape_configs:
+  # Backend API metrics
+  - job_name: 'backend'
+    static_configs:
+      - targets: ['backend:8000']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+
+  # AI Services metrics
+  - job_name: 'asr-service'
+    static_configs:
+      - targets: ['asr-service:8001']
+    metrics_path: '/metrics'
+    scrape_interval: 60s
+
+  - job_name: 'translation-service'
+    static_configs:
+      - targets: ['translation-service:8002']
+    metrics_path: '/metrics'
+    scrape_interval: 60s
+
+  - job_name: 'tts-service'
+    static_configs:
+      - targets: ['tts-service:8003']
+    metrics_path: '/metrics'
+    scrape_interval: 60s
+
+  - job_name: 'face-animation-service'
+    static_configs:
+      - targets: ['face-animation-service:8004']
+    metrics_path: '/metrics'
+    scrape_interval: 60s
+
+  # System metrics
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['node-exporter:9100']
+    scrape_interval: 30s
+
+  # Database metrics
+  - job_name: 'postgres-exporter'
+    static_configs:
+      - targets: ['postgres-exporter:9187']
+    scrape_interval: 30s
+
+  # Redis metrics
+  - job_name: 'redis-exporter'
+    static_configs:
+      - targets: ['redis-exporter:9121']
+    scrape_interval: 30s
