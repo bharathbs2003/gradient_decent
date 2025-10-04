@@ -17,14 +17,14 @@ class Settings(BaseSettings):
     VERSION: str = "1.0.0"
     
     # Security
-    SECRET_KEY: str = Field(..., min_length=32)
+    SECRET_KEY: str = Field(default="your-super-secret-key-change-in-production-this-is-for-development-only", min_length=32)
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     ALLOWED_HOSTS: List[str] = ["*"]
     CORS_ORIGINS: List[str] = ["http://localhost:3000", "http://localhost:8080"]
     
     # Database
-    DATABASE_URL: str = Field(..., description="PostgreSQL database URL")
+    DATABASE_URL: str = Field(default="sqlite:///./dubbing_platform.db", description="Database URL")
     DATABASE_POOL_SIZE: int = 10
     DATABASE_MAX_OVERFLOW: int = 20
     

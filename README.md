@@ -46,21 +46,51 @@ Enable seamless, high-fidelity, multilingual dubbing of video content by automat
 
 ## 📋 Quick Start
 
-1. **Clone the repository**
+### Option 1: Simple Setup (Recommended for Testing)
+
+1. **Install dependencies**
    ```bash
-   git clone <repository-url>
-   cd multilingual-ai-dubbing-platform
+   ./install_dependencies.sh
    ```
 
-2. **Start with Docker Compose**
+2. **Start the server**
+   ```bash
+   cd backend
+   python3 -m uvicorn app.minimal_main:app --host 0.0.0.0 --port 8001
+   ```
+
+3. **Access the platform**
+   - API: http://localhost:8001
+   - API Docs: http://localhost:8001/docs
+   - Health Check: http://localhost:8001/health
+
+### Option 2: Full Docker Setup
+
+1. **Start with Docker Compose**
    ```bash
    docker-compose up -d
    ```
 
-3. **Access the platform**
+2. **Access the platform**
    - Frontend: http://localhost:3000
    - API: http://localhost:8000
    - API Docs: http://localhost:8000/docs
+
+### Option 3: Development Setup
+
+1. **Use the startup script**
+   ```bash
+   python3 start_server.py --backend-only --port 8001
+   ```
+
+## 🔧 Troubleshooting
+
+If you encounter issues, see [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for detailed solutions.
+
+**Common Issues**:
+- **Internal Server Error**: Run `./install_dependencies.sh`
+- **Port in use**: Use `--port 8001` instead of 8000
+- **Missing modules**: Install dependencies with pip3
 
 ## 📊 Performance Metrics
 
